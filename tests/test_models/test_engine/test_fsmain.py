@@ -21,7 +21,7 @@ class test_fileStorage(unittest.TestCase):
         """Remove storage file at end of tests"""
         try:
             os.remove("file.json")
-        except:
+        except OSError:
             pass
 
     def test_obj_list_empty(self):
@@ -55,7 +55,7 @@ class test_fileStorage(unittest.TestCase):
 
     def test_reload_empty(self):
         """Load from an empty file"""
-        with open("file.json", "w") as file:
+        with open("file.json", "w") as f:
             pass
         with self.assertRaises(ValueError):
             storage.reload()

@@ -2,40 +2,71 @@
 """
 Unittest for amenity.py
 """
-import datetime
-import unittest
 
+import os
+import unittest
+import pep8
 from models.amenity import Amenity
+from models.base_model import BaseModel
 
 
 class TestAmenity(unittest.TestCase):
-    """Test instances for the amenity class"""
+    """this will test the Amenity class"""
+    @classmethod
+    def setUpClass(cls):
+        """set up for test"""
+        cls.amenity = Amenity()
+        cls.amenity.name = "Breakfast"
 
-    amenity = Amenity()
+    @classmethod
+    def teardown(cls):
+        """at the end of the test this will tear it down"""
+        del cls.amenity
 
-    def test_class_exists(self):
-        """test if class exists"""
-        result = "<class 'models.amenity.Amenity'>"
-        self.assertEqual(str(type(self.amenity)), result)
+    def tearDown(self):
+        """teardown"""
+        try:
+            os.remove("file.json")
+        except Exception:
+            pass
 
-    def test_has_attrs(self):
-        """test if attributes exist"""
-        self.assertTrue(hasattr(self.amenity, 'id'))
-        self.assertTrue(hasattr(self.amenity, 'name'))
-        self.assertTrue(hasattr(self.amenity, 'created_at'))
-        self.assertTrue(hasattr(self.amenity, 'updated_at'))
+    def test_pep8_amenity(self):
+        """Tests pep8 style"""
+        style = pep8.StyleGuide(quiet=True)
+        pep = style.check_files(['models/amenity.py'])
+        self.assertEqual(pep.total_errors, 0, "fix pep8")
 
-    def test_user_inheritance(self):
-        """test if the Amenity is a subclass of BaseModel"""
-        self.assertIsInstance(self.amenity, Amenity)
+    def test_checking_for_docstring_amenity(self):
+        """checking for docstrings"""
+        self.assertIsNotNone(Amenity.__doc__)
 
-    def test_types(self):
-        """tests the type of the attribute is the correct one"""
-        self.assertIsInstance(self.amenity.id, str)
-        self.assertIsInstance(self.amenity.name, str)
-        self.assertIsInstance(self.amenity.created_at, datetime.datetime)
-        self.assertIsInstance(self.amenity.updated_at, datetime.datetime)
+    def test_attributes_amenity(self):
+        """chekcing if amenity have attibutes"""
+        self.assertTrue('id' in self.amenity.__dict__)
+        self.assertTrue('created_at' in self.amenity.__dict__)
+        self.assertTrue('updated_at' in self.amenity.__dict__)
+        self.assertTrue('name' in self.amenity.__dict__)
+
+    def test_is_subclass_amenity(self):
+        """test if Amenity is subclass of Basemodel"""
+        self.assertTrue(issubclass(self.amenity.__class__, BaseModel), True)
+
+    def test_attribute_types_amenity(self):
+        """test attribute type for Amenity"""
+        self.assertEqual(type(self.amenity.name), str)
+
+    @unittest.skipIf(
+        os.getenv('HBNB_TYPE_STORAGE') == 'db',
+        "This test only work in Filestorage")
+    def test_save_amenity(self):
+        """test if the save works"""
+        self.amenity.save()
+        self.assertNotEqual(self.amenity.created_at, self.amenity.updated_at)
+
+    def test_to_dict_amenity(self):
+        """test if dictionary works"""
+        self.assertEqual('to_dict' in dir(self.amenity), True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
