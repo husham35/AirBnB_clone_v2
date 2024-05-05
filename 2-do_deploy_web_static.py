@@ -22,28 +22,32 @@ an archive to your web servers, using the function do_deploy:
 """
 from fabric.api import env, put, run
 import os.path
+
 env.hosts = ['54.83.170.40', '18.209.179.183']
+env.user = 'ubuntu'
 
 
 def do_deploy(archive_path):
     """
     Distributes an archive to your web servers.
     """
-    if os.path.isfile(archive_path) is False:
+    if not os.path.exists(archive_path):
         return False
     try:
-        filename = archive_path.split("/")[-1]
-        no_ext = filename.split(".")[0]
-        path_no_ext = "/data/web_static/releases/{}/".format(no_ext)
-        symlink = "/data/web_static/current"
-        put(archive_path, "/tmp/")
-        run("mkdir -p {}".format(path_no_ext))
-        run("tar -xzf /tmp/{} -C {}".format(filename, path_no_ext))
-        run("rm /tmp/{}".format(filename))
-        run("mv {}web_static/* {}".format(path_no_ext, path_no_ext))
-        run("rm -rf {}web_static".format(path_no_ext))
-        run("rm -rf {}".format(symlink))
-        run("ln -s {} {}".format(path_no_ext, symlink))
+        file_name = archive_path.split("/")[-1].split(".")[0]
+
+        put(archive_path, '/tmp/')
+        run('mkdir /data/web_static/releases/{}'.format(file_name))
+        run('tar -xzf /tmp/{}.tgz -C /data/web_static/releases/{}'.
+            format(file_name, file_name))
+        run('mv /data/web_static/releases/{}/web_static/* \
+            /data/web_static/releases/{}/'.
+            format(file_name, file_name))
+        run('rm -rf /data/web_static/releases/{}/web_static'.format(file_name))
+        run('rm -rf /tmp/{}.tgz'.format(file_name))
+        run('rm -rf /data/web_static/current')
+        run('ln -sf /data/web_static/releases/{}/ /data/web_static/current'.
+            format(file_name))
         return True
     except Exception:
         return False
