@@ -42,26 +42,26 @@ def do_deploy(archive_path):
 
         # Create the release directory
         release_dir = '/data/web_static/releases/{}'.format(archive_name)
-        run('mkdir -p {}'.format(release_dir))
+        run('sudo mkdir -p {}'.format(release_dir))
 
         # Uncompress the archive to the release directory
-        run('tar -xzf /tmp/{} -C {}'.format(
+        run('sudo tar -xzf /tmp/{} -C {}'.format(
             os.path.basename(archive_path), release_dir
         ))
 
         # Remove the archive from the web server
-        run('rm /tmp/{}'.format(os.path.basename(archive_path)))
+        run('sudo rm /tmp/{}'.format(os.path.basename(archive_path)))
 
         # Move the files one directory up and delete the folder
-        run('mv {}/web_static/* {}'.format(release_dir, release_dir))
-        run('rm -rf {}/web_static'.format(release_dir))
+        run('sudo mv {}/web_static/* {}'.format(release_dir, release_dir))
+        run('sudo rm -rf {}/web_static'.format(release_dir))
 
         # Delete the current symbolic link
         current_link = '/data/web_static/current'
-        run('rm -rf {}'.format(current_link))
+        run('sudo rm -rf {}'.format(current_link))
 
         # Create a new symbolic link
-        run('ln -s {} {}'.format(release_dir, current_link))
+        run('sudo ln -s {} {}'.format(release_dir, current_link))
 
         # Restart the nginx service (if necessary)
         run('sudo service nginx restart')
