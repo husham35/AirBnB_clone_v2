@@ -29,7 +29,7 @@ sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
 
 # configuration to add to `/etc/nginx/sites-available/default`
-config_to_add="    location /hbnb_static/ {
+config_to_add="location /hbnb_static/ {
         alias /data/web_static/current/;
         index index.html;
         # Enable directory listing (if desired)
