@@ -11,8 +11,8 @@ an archive to your web servers, using the function do_deploy:
  -  - Delete the archive from the web server
  -  - Delete the symbolic link /data/web_static/current from the web server
  -  - Create a new the symbolic link /data/web_static/current
-      on the web server, linked to the new version of your code 
-	  (/data/web_static/releases/<archive filename without extension>)
+      on the web server, linked to the new version of your code
+      (/data/web_static/releases/<archive filename without extension>)
  - All remote commands must be executed on your both web servers
    (using env.hosts = ['<IP web-01>', 'IP web-02'] variable in your script)
  - Returns True if all operations have been done correctly,
@@ -69,4 +69,3 @@ def do_deploy(archive_path):
         return True
     except Exception:
         return False
-    
