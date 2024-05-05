@@ -2,10 +2,10 @@
 # Bash script that sets up your web servers for the deployment of `web_static`
 
 # check and install nginx if not installed
-if ! dpkg -l nginx >/dev/null 2>&1; then
+# if ! dpkg -l nginx >/dev/null 2>&1; then
     sudo apt-get update
     sudo apt-get -y install nginx
-fi
+# fi
 
 # create all directories and sub-directories
 sudo mkdir -p /data/web_static/shared/
