@@ -45,6 +45,6 @@ def do_deploy(archive_path):
         run("rm -rf {}".format(symlink))
         run("ln -s {} {}".format(path_no_ext, symlink))
         return True
-    except:
+    except Exception:
         return False
     
