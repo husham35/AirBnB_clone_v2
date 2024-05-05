@@ -37,14 +37,14 @@ def do_deploy(archive_path):
         # Get the archive filename without extension
         archive_name = os.path.basename(archive_path).split('.')[0]
 
-        # Upload the archive to /tmp/ directory on the web servers
+        # Upload the archive to `/tmp/` directory on the web servers
         put(archive_path, '/tmp/')
 
-        # Create the release directory
+        # Create the `release` directory
         release_dir = '/data/web_static/releases/{}'.format(archive_name)
         run('sudo mkdir -p {}'.format(release_dir))
 
-        # Uncompress the archive to the release directory
+        # Decompress the archive to the release directory
         run('sudo tar -xzf /tmp/{} -C {}'.format(
             os.path.basename(archive_path), release_dir
         ))
@@ -63,7 +63,7 @@ def do_deploy(archive_path):
         # Create a new symbolic link
         run('sudo ln -s {} {}'.format(release_dir, current_link))
 
-        # Restart the nginx service (if necessary)
+        # Restart the nginx service
         run('sudo service nginx restart')
 
         return True
