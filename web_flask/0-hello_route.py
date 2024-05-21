@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 @app.route('/', strict_slashes=False)
 def hello_hbnb():
-    """Return an HTTP greeting."""
+    """Return an HTTP response"""
     return "Hello HBNB!"
 
 
