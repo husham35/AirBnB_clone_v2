@@ -328,7 +328,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         # generate key from class and id
-        key = f"{cmd_name}.{cmd_id}"
+        key = "{}.{}".format({cmd_name},{cmd_id})
 
         # determine if key is present
         if key not in storage.all():
