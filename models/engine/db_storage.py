@@ -36,7 +36,7 @@ class DBStorage:
         HOST = getenv("HBNB_MYSQL_HOST")
         DB = getenv("HBNB_MYSQL_DB")
         URL = "mysql+mysqldb://{}:{}@{}:3306/{}".format(
-            {USER},{PWD},{HOST},{DB})
+            {USER}, {PWD}, str({HOST}), {DB})
         self.__engine = create_engine(URL, pool_pre_ping=True)
         if getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
