@@ -94,4 +94,5 @@ class BaseModel:
         """
         Returns the print/str representation of the BaseModel instance.
         """
-        return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
+        return "[{}] ({}) {}".format(
+            {type(self).__name__}, ({self.id}), {self.__dict__})
