@@ -28,13 +28,13 @@ app = Flask(__name__)
 
 @app.teardown_appcontext
 def remove_current_session(exception):
-    """ Removes the current SQLAlchemy session. """
+    """ delete current sqlalchemy session. """
     storage.close()
 
 
 @app.route('/states_list', strict_slashes=False)
 def list_states():
-    """ Renders a page with all states in the database. """
+    """ render a page with all states from the database. """
     states = storage.all('State')
     return render_template('7-states_list.html', states=states)
 
