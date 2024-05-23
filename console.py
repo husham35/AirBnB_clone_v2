@@ -255,7 +255,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
 
-        key = f"{cmd_name}.{cmd_id}"
+        key = "{}.{}".format({cmd_name},{cmd_id})
 
         try:
             del storage.all()[key]
